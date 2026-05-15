@@ -20,8 +20,14 @@ class SocketListener:
 
     # Process Input
     def json_receive(self):
-        json_data = self.connection.recv(1024)
-        return json.loads(json_data)
+        json_data = ""
+        while True:
+            try:
+                json_data = json_data + self.connection.recv(1024)
+                return json.loads(json_data)
+            except ValueError:
+                continue
+
 
     # Getting Input
     def command_execution(self,command_input):
