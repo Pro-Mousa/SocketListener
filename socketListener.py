@@ -1,5 +1,6 @@
 import socket
 import json
+import base64
 
 class SocketListener:
     def __init__(self,ip,port):
@@ -45,8 +46,8 @@ class SocketListener:
             with open(path, "wb") as my_file:
                 my_file.write(file_bytes)
                 return "Download completed successfully"
-        except Exception as e:
-            return f"Error saving file: {str(e)}"
+        except Exception:
+            return "Error saving file"
 
     def start_listener(self):
         while True:
