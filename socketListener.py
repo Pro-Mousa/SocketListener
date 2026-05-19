@@ -29,7 +29,6 @@ class SocketListener:
             except ValueError:
                 continue
 
-
     # Getting Input
     def command_execution(self,command_input):
         self.json_send(command_input)
@@ -68,6 +67,7 @@ class SocketListener:
 
                 if command_input[0] == "download" and "Error!!" not in command_output:
                     command_output = self.save_file(command_input[1],command_output)
+
             except Exception:
                 command_output = "Error!! Check command input."
 
